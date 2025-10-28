@@ -1,12 +1,19 @@
 import express from "express";
-import axios from "axios";
 import cors from "cors";
+import dotenv from "dotenv";
 
+import weatherRoutes from "./routes/weather.js";
+import airRoutes from "./routes/air.js";
+import alertRoutes from "./routes/alert.js";
+
+dotenv.config();
 const app = express();
 app.use(cors());
 
-app.get("/api/test", (req, res) => {
-  res.json({ message: "Server working fine!" });
-});
+// use routers
+app.use("/api/weather", weatherRoutes);
+app.use("/api/air", airRoutes);
+app.use("/api/alert", alertRoutes);
 
-app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
